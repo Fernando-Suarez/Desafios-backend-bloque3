@@ -1,0 +1,144 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: content-box;
+}
+body {
+	background-color: #cececdc7;
+}
+h1 {
+	color: #420099;
+	text-align: center;
+	margin: 10px;
+	padding: 10px;
+}
+
+/*product list*/
+.container {
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+
+.content-table {
+	border-collapse: collapse;
+	width: 400px;
+	font-size: 1.5rem;
+	margin: 25 0;
+	border-radius: 5px 5px 0 0;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.content-table thead tr {
+	background-color: #009879;
+	color: #ffffff;
+	text-align: left;
+	font-weight: bold;
+}
+
+.content-table td,
+.content-table th {
+	padding: 20px;
+}
+
+.content-table td {
+	background-color: #0c0b0b;
+	color: #dddddd;
+}
+
+.content-table tbody tr {
+	border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:last-of-type {
+	border-bottom: 2px solid #009879;
+}
+
+.not-found {
+	background-color: #cfcf2fc7;
+	height: 70px;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.not-found h2 {
+	font-size: 1.2rem;
+	color: rgb(168, 140, 106);
+	font-weight: bold;
+	padding: 20px;
+	text-align: center;
+}
+
+/* Form */
+
+form {
+	margin: 0 auto;
+	max-width: 800px;
+	background-color: #ffffff;
+	color: #999999;
+	padding: 15px;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+input {
+	border: solid 1px #cccccc;
+	outline: none;
+	padding: 10px;
+	width: 770px;
+}
+
+input:focus {
+	border-color: #009879;
+}
+
+.submit-button {
+	background-color: #00ac42;
+	color: #ffffff;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+/* Chat */
+
+.chat-form-container h2 {
+	font-size: 2rem;
+	color: #2d2de2;
+}
+
+.chat-container {
+	background-color: #ffffff;
+	height: 80vh;
+	padding: 1rem;
+	overflow: scroll;
+}
+
+.chat-texto {
+	margin: 10px auto;
+}
+
+.chat-mensajes {
+	max-width: 400px;
+	padding-left: 10px;
+	background-color: #ffffff;
+}
+
+.chat-mensajes p {
+	margin: 10px 0px;
+	font-size: 0.8rem;
+}
+
+.mensaje-email {
+	color: #1e1edb;
+	font-weight: bold;
+}
+
+.mensaje-fecha {
+	color: #a52a2a;
+}
+
+.mensaje-contenido {
+	color: #0c850c;
+	font-style: italic;
+}

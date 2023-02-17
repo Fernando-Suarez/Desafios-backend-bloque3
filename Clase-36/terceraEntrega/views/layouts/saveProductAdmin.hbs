@@ -1,0 +1,53 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
+		<script
+			src='https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js'
+		></script>
+		
+		<title>Node Js</title>
+	</head>
+	{{> header }}
+	<body>
+<div>
+	<h1>Ingrese un Producto</h1>
+	<form method='POST' action='/api/productos' id='product-form'>
+		<div>
+			<p>Nombre</p>
+			<input type='text' name='nombre' required='' />
+		</div>
+		<div>
+			<p>Precio</p>
+			<input type='text' name='precio' required='' />
+		</div>
+		<div>
+			<p>Categoria</p>
+			<input type='text' name='categoria' required='' />
+		</div>
+		<div>
+			<p>Foto URL</p>
+			<input type='text' name='thumbnail' required='' />
+		</div>
+		<div>
+			<p>Descripcion</p>
+			<input type='text' name='descripcion' required='' />
+		</div>
+		<div>
+			<p>Codigo</p>
+			<input type='text' name='codigo' required='' />
+		</div>
+		<div>
+			<p>Stock</p>
+			<input type='text' name='stock' required='' />
+		</div>
+		<div>
+			<br />
+			<input type='submit' class='submit-button' />
+		</div>
+	</form>
+</div>
+</body>
+</html>

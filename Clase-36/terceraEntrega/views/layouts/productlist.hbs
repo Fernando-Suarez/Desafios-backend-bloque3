@@ -36,7 +36,7 @@
 								<td><img width='60' src={{this.thumbnail}} /></td>
 								<td>
 									<form action='/api/carrito/addProduct' method='POST'>
-										<input type='hidden' name='idUser' value={{user._id}} />
+										<input type='hidden' name='idUser' value={{user.id}} />
 										<input type='hidden' name='idProduct' value={{this._id}} />
 										<button type='submit'>Agregar al
 											carrito!</button>

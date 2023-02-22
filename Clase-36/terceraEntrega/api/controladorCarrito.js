@@ -4,16 +4,16 @@ const contenedorProductos = storage().productos;
 
 //GET: '/' - trae la vista del carrito
 
-const viewCart = (req, res) => {
-	const user = req.user;
-	res.render('main', {
-		layout: 'carrito',
-		user: user,
-		products: user.carrito,
-		username: user.username,
-		admin: user.admin,
-	});
-};
+// const viewCart = (req, res) => {
+// 	const user = req.user;
+// 	res.render('main', {
+// 		layout: 'carrito',
+// 		user: user,
+// 		products: user.carrito,
+// 		username: user.username,
+// 		admin: user.admin,
+// 	});
+// };
 
 // POST: '/' - Crea un carrito y devuelve su id.
 const postCreateCart = async (req, res) => {
@@ -40,17 +40,26 @@ const deleteCartId = async (req, res) => {
 // GET: '/:id/productos' - Me permite listar todos los productos guardados en el carrito
 
 const getProductsCart = async (req, res) => {
-	const { id } = req.params;
+	const id = req.user._id;
 	const carritoId = await contenedorCarrito.getById(id);
-	if (carritoId) res.json({ succes: true, productos: carritoId.productos });
-	else res.json({ error: true, msg: 'Id carrito no encontrado' });
+	if (carritoId) {
+		// res.json({ succes: true, productos: carritoId.productos });
+		const user = req.user;
+		res.render('main', {
+			layout: 'carrito',
+			products: carritoId.productos,
+			username: user.username,
+			admin: user.admin,
+		});
+	} else {
+		res.json({ error: true, msg: 'Id carrito no encontrado' });
+	}
 };
 // POST: '/:id/productos' - Para incorporar productos al carrito por su id de producto
 
 const postProductCartId = async (req, res) => {
 	const { idProduct } = req.body;
-	const idUser = req.user._id.toString();
-	console.log(idUser, idProduct);
+	const idUser = req.user._id;
 	const carritoId = await contenedorCarrito.getById(idUser);
 	if (!carritoId)
 		return res.json({ error: true, msg: 'carrito no encontrado' });
@@ -63,22 +72,18 @@ const postProductCartId = async (req, res) => {
 		idUser,
 		carritoId
 	);
-	res.json({
-		succes: true,
-		msg: `producto id ${producto.id} agregado al carrito id ${carritoId.id}`,
-	});
+	res.redirect('/api/productos');
 };
 
 // DELETE: '/:id/productos/:id_prod' - Eliminar un producto del carrito por su id de carrito y de producto
 
 const deleteCartProductId = async (req, res) => {
 	try {
-		const { id, id_prod } = req.params;
+		// const { id, id_prod } = req.params;
+		const id = req.user._id;
+		const id_prod = req.body.idProduct;
 		await contenedorCarrito.deleteProductById(id, id_prod);
-		res.json({
-			succes: true,
-			msg: `producto con ID ${id_prod} eliminado del carrito con ID ${id}`,
-		});
+		res.redirect('/api/carrito');
 	} catch (error) {
 		return res.json(`${error}`);
 	}
@@ -90,5 +95,5 @@ module.exports = {
 	getProductsCart,
 	postProductCartId,
 	deleteCartProductId,
-	viewCart,
+	// viewCart,
 };

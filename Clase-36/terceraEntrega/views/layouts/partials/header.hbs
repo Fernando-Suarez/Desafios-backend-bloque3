@@ -1,38 +1,39 @@
 <header>
-  
 
-      <div>
-        <ul>
-          <li>
-            <a href="/">Home</a>
-          </li>
+	<div>
+		<ul>
+			<li>
+				<a href='/'>Inicio</a>
+			</li>
 
-          <li>
-            <a href="/api/productos">All products</a>
-          </li>
+			<li>
+				<a href='/api/productos'>Todos los productos</a>
+			</li>
 
-          {{#if admin}}
-            <li>
-              <a  href="/formAddProduct">Add products</a>
-            </li>
-            {{/if}}
+			{{#if admin}}
+				<li>
+					<a href='/formAddProduct'>Agregar Productos</a>
+				</li>
+			{{/if}}
 
-              <li >
-                <a href="/api/carrito">Carrito</a>
-              </li>
+			<li>
+				<a href='/api/carrito'>Carrito</a>
+			</li>
 
-              <li>
-                <a href="/profile">{{username}}</a>
-              </li>
+			<li>
+				<a href='/profile'>{{username}}</a>
+			</li>
 
-              <li>
-                <a href="/logout">Salir</a>
-              </li>
+			<li>
+				<a href='/logout'>Salir</a>
+			</li>
 
-        </ul>
+		</ul>
 
-
-      </div>
-    </div>
-  </nav>
+	</div>
+	<div>
+		<form method='POST' action='/api/carrito'>
+			<button type='submit'> Crear Carrito</button>
+		</form>
+	</div>
 </header>

@@ -2,13 +2,31 @@ const storage = require('../daos/index');
 const contenedorCarrito = storage().carrito;
 const contenedorProductos = storage().productos;
 
+//GET: '/' - trae la vista del carrito
+
+const viewCart = (req, res) => {
+	const user = req.user;
+	res.render('main', {
+		layout: 'carrito',
+		user: user,
+		products: user.carrito,
+		username: user.username,
+		admin: user.admin,
+	});
+};
+
 // POST: '/' - Crea un carrito y devuelve su id.
 const postCreateCart = async (req, res) => {
+	const user = req.user;
 	const date = new Date();
 	const fechaYHora = `[${date.toLocaleDateString()}] [${date.toLocaleTimeString()}]`;
-	const nuevoCarrito = { timestamp: fechaYHora, productos: [] };
-	const guardarCarrito = await contenedorCarrito.save(nuevoCarrito);
-	res.json({ succes: true, carritoId: guardarCarrito });
+	const nuevoCarrito = {
+		timestamp: fechaYHora,
+		productos: [],
+		_id: user._id,
+	};
+	const carritoID = await contenedorCarrito.save(nuevoCarrito);
+	res.redirect('/api/productos');
 };
 // DELETE: '/:id' - Vacía un carrito y lo elimina.
 
@@ -30,17 +48,21 @@ const getProductsCart = async (req, res) => {
 // POST: '/:id/productos' - Para incorporar productos al carrito por su id de producto
 
 const postProductCartId = async (req, res) => {
-	const { productoId } = req.body;
-	const { id } = req.params;
-	const carritoId = await contenedorCarrito.getById(id);
+	const { idProduct } = req.body;
+	const idUser = req.user._id.toString();
+	console.log(idUser, idProduct);
+	const carritoId = await contenedorCarrito.getById(idUser);
 	if (!carritoId)
 		return res.json({ error: true, msg: 'carrito no encontrado' });
-	const producto = await contenedorProductos.getById(productoId);
+	const producto = await contenedorProductos.getById(idProduct);
 
 	if (!producto)
 		return res.json({ error: true, msg: 'producto no encontrado' });
 	carritoId.productos.push(producto);
-	const productoAgregado = await contenedorCarrito.updateById(id, carritoId);
+	const productoAgregado = await contenedorCarrito.updateById(
+		idUser,
+		carritoId
+	);
 	res.json({
 		succes: true,
 		msg: `producto id ${producto.id} agregado al carrito id ${carritoId.id}`,
@@ -61,10 +83,12 @@ const deleteCartProductId = async (req, res) => {
 		return res.json(`${error}`);
 	}
 };
+
 module.exports = {
 	postCreateCart,
 	deleteCartId,
 	getProductsCart,
 	postProductCartId,
 	deleteCartProductId,
+	viewCart,
 };

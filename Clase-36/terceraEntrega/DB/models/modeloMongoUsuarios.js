@@ -8,7 +8,6 @@ const usuariosSchema = new Schema({
 	edad: { type: Number, required: true, max: 100 },
 	telefono: { type: Number, required: true },
 	avatar: { type: String, required: true },
-	carrito: { type: Array, required: true },
 	admin: { type: Boolean, required: true },
 });
 

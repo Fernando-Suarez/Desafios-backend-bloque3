@@ -21,21 +21,40 @@ const getProductId = async (req, res) => {
 	const { id } = req.params;
 	const productosId = await contenedorProductos.getById(id);
 	if (!productosId) {
-		res.json({ error: true, msg: 'Producto no encontrado' });
+		res.render('main', { layout: 'productoID', username: userLog.username });
 	} else {
 		res.render('main', {
 			layout: 'productoID',
 			products: productosId,
+			username: userLog.username,
 			userLog,
 		});
 	}
+};
+
+//* GET productos por categoria
+const getProductCategory = async (req, res) => {
+	const user = req.user;
+	const { categoria } = req.params;
+	const productos = await contenedorProductos.getAll();
+	const productosFiltrados = productos.filter((product) => {
+		if (product.categoria.toLowerCase() == categoria.toLowerCase()) {
+			return product;
+		}
+	});
+	res.render('main', {
+		layout: 'productoID',
+		products: productosFiltrados,
+		username: user.username,
+		user: user.toJSON(),
+	});
 };
 
 //*POST Agrega un producto
 
 const postProduct = async (req, res) => {
 	const { body } = req;
-	const saveProduct = await contenedorProductos.save(body);
+	await contenedorProductos.save(body);
 	res.redirect('/api/productos');
 };
 
@@ -78,4 +97,5 @@ module.exports = {
 	postProduct,
 	putProduct,
 	deleteProductId,
+	getProductCategory,
 };

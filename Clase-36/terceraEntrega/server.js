@@ -13,20 +13,21 @@ const LocalStrategy = require('passport-local');
 const Usuarios = require('./DB/models/modeloMongoUsuarios');
 const { logger } = require('./utils/logger');
 
-if (process.env.NODE_ENV != 'production') {
-	require('dotenv').config();
-}
-
 //* Instancias
 const app = express();
 const { upload } = require('./utils/multer');
+const enviarMail = require('./utils/nodemailerGmail');
 const storage = require('./daos/index');
 const contenedorMensajes = storage().mensajes;
 const routerProductos = require('./routes/routerProductos');
+const routerCarrito = require('./routes/routesCarrito');
 const mongoDB = require('./DB/options/configMongoDB');
 const HTTPserver = new HTTPServer(app);
 const io = new IOServer(HTTPserver);
 
+if (process.env.NODE_ENV != 'production') {
+	require('dotenv').config();
+}
 //--------------------------------------------------------------------------------------------------------------------------------------------//
 //* puerto en yags por defecto
 const args = yargs.default({ PORT: 8080 }).alias({ p: 'PORT' }).argv;
@@ -118,8 +119,23 @@ passport.use(
 					direccion: req.body.direccion,
 					nombre: req.body.nombre,
 					avatar: req.file.filename,
-					carrito: [],
 					admin: false,
+				};
+				const mailOptions = {
+					from: process.env.USER_GMAIL,
+					to: process.env.USER_GMAIL,
+					subject: `Nuevo registro`,
+					html: `
+						<h3>Nuevo registro de usuario!</h3>
+						<p> Datos:</p>
+						<ul>
+						<li> Nombre: ${newUser.nombre}</li>
+						<li> Email: ${newUser.username}</li>
+						<li> Teléfono: ${newUser.telefono}</li>
+						<li> Edad: ${newUser.edad}</li>
+						<li> Direccion: ${newUser.direccion}</li>
+						</ul>
+					`,
 				};
 				Usuarios.create(newUser, (err, userWithId) => {
 					if (err) {
@@ -127,7 +143,7 @@ passport.use(
 						return done(err);
 					}
 					console.log(user);
-					console.log('User Registration succesful');
+					enviarMail(mailOptions); //enviar el mail
 					return done(null, userWithId);
 				});
 			});
@@ -178,6 +194,7 @@ app.use(
 //passport iniciar
 app.use(passport.initialize());
 app.use(passport.session());
+
 //* Endpoints
 
 app.get('/', checkAuthentication, (req, res) => {
@@ -192,7 +209,7 @@ app.get('/', checkAuthentication, (req, res) => {
 
 //routes productos
 app.use('/api/productos', checkAuthentication, routerProductos);
-app.get('/formAddProduct', (req, res) => {
+app.get('/formAddProduct', checkAuthentication, (req, res) => {
 	const user = req.user;
 	res.render('main', {
 		layout: 'saveProductAdmin',
@@ -201,9 +218,8 @@ app.get('/formAddProduct', (req, res) => {
 	});
 });
 
-// app.get('*', (req, res) => {
-// 	logger.log('warn', 'Ruta: inexistente - Metodo: GET');
-// });
+//routes carrito
+app.use('/api/carrito', checkAuthentication, routerCarrito);
 
 //*Endpoints passport
 app.get('/login', routes.getLogin);
@@ -227,30 +243,11 @@ app.get('/profile', routes.profileUser);
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* Servidor
 HTTPserver.listen(PORT, () => {
+	mongoDB;
 	console.log(`Servidor escuchado en el puerto ${HOST}:${PORT}`);
 });
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
-//* funciones socket productos
-// const enviarProductosSocket = async (socket) => {
-// 	try {
-// 		const productos = await contenedorProductos.getAll();
-
-// 		socket.emit('lista productos', productos);
-// 	} catch (error) {
-// 		logger.log('error', 'error al enviar productos db');
-// 	}
-// };
-
-// const guardarProducto = async (nuevoProducto) => {
-// 	try {
-// 		await contenedorProductos.save(nuevoProducto);
-// 		const productos = await contenedorProductos.getAll();
-// 		io.sockets.emit('lista productos', productos);
-// 	} catch (error) {
-// 		logger.log('error', 'no se pudo guardar el producto');
-// 	}
-// };
 
 //* funciones socket chat
 const enviarMensajesSocket = async (socket) => {
@@ -281,12 +278,8 @@ const guardarMensaje = async (nuevoMensaje) => {
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------//
 //* sockets
 io.on('connection', (socket) => {
-	// enviarProductosSocket(socket);
 	enviarMensajesSocket(socket);
 
-	// socket.on('nuevo producto', (newProduct) => {
-	// 	guardarProducto(newProduct);
-	// });
 	socket.on('nuevo mensaje', (newMensaje) => {
 		guardarMensaje(newMensaje);
 	});

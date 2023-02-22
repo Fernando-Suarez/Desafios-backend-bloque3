@@ -1,19 +1,23 @@
-import { Router } from 'express';
+const { Router } = require('express');
 
-import {
+const {
 	postCreateCart,
 	deleteCartId,
 	getProductsCart,
 	postProductCartId,
 	deleteCartProductId,
-} from '../api/controladorCarrito.js';
+	viewCart,
+} = require('../api/controladorCarrito');
 
 const routerCarrito = Router();
 
+routerCarrito.get('/', viewCart);
 routerCarrito.post('/', postCreateCart);
 routerCarrito.delete('/:id', deleteCartId);
 routerCarrito.get('/:id/productos', getProductsCart);
-routerCarrito.post('/:id/productos', postProductCartId);
-routerCarrito.delete('/:id/productos/:id_prod', deleteCartProductId);
+routerCarrito.post('/addProduct', postProductCartId);
+routerCarrito.delete('/deleteProduct', deleteCartProductId);
+// routerCarrito.post('/:id/productos', postProductCartId);
+// routerCarrito.delete('/:id/productos/:id_prod', deleteCartProductId);
 
-export default routerCarrito;
+module.exports = routerCarrito;

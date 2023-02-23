@@ -1,3 +1,6 @@
+administrador
+fernando@gmail.com pass: 123
+
 Se debe entregar:
 
 .Un menú de registro y autenticación de usuarios basado en passport local, guardando en la base de datos las credenciales y el resto de los datos ingresados al momento del registro.

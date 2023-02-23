@@ -11,7 +11,7 @@ const {
 const routerCarrito = Router();
 
 routerCarrito.get('/', getProductsCart);
-routerCarrito.post('/', postCreateCart);
+// routerCarrito.post('/', postCreateCart);
 routerCarrito.delete('/:id', deleteCartId);
 // routerCarrito.get('/:id/productos', getProductsCart);
 routerCarrito.post('/addProduct', postProductCartId);

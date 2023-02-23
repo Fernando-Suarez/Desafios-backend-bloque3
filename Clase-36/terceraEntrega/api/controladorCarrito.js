@@ -26,7 +26,7 @@ const postCreateCart = async (req, res) => {
 		_id: user._id,
 	};
 	const carritoID = await contenedorCarrito.save(nuevoCarrito);
-	res.redirect('/api/productos');
+	res.redirect('/');
 };
 // DELETE: '/:id' - Vacía un carrito y lo elimina.
 

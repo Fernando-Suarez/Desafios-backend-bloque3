@@ -21,7 +21,9 @@ const storage = require('./daos/index');
 const contenedorMensajes = storage().mensajes;
 const routerProductos = require('./routes/routerProductos');
 const routerCarrito = require('./routes/routesCarrito');
+const routerOrdenes = require('./routes/routerOrdenes');
 const mongoDB = require('./DB/options/configMongoDB');
+const { postCreateCart } = require('./api/controladorCarrito');
 const HTTPserver = new HTTPServer(app);
 const io = new IOServer(HTTPserver);
 
@@ -221,6 +223,9 @@ app.get('/formAddProduct', checkAuthentication, (req, res) => {
 //routes carrito
 app.use('/api/carrito', checkAuthentication, routerCarrito);
 
+//routes ordenes
+app.use('/api/ordenes', checkAuthentication, routerOrdenes);
+
 //*Endpoints passport
 app.get('/login', routes.getLogin);
 app.post(
@@ -234,6 +239,7 @@ app.post(
 	'/signup',
 	upload.single('avatar'),
 	passport.authenticate('signup', { failureRedirect: '/failsignup' }),
+	postCreateCart,
 	routes.postSignup
 );
 app.get('/failsignup', routes.getFailsignup);

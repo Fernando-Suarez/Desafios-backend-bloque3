@@ -1,0 +1,64 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
+		<title>Carrito</title>
+	</head>
+		{{> header}}
+	<body>
+		<h1>Vista de Productos</h1>
+
+		{{#if products.length}}
+			<div class='container'>
+				<table class='content-table'>
+					<thead>
+						<tr>
+							<th>Nombre</th>
+                            <th>Descripcion</th>
+							<th>Precio</th>
+                            <th>Cantidad</th>
+							<th>Foto</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each products}}
+
+							<tr>
+								<td>{{this.nombre}}</td>
+								<td>{{this.descripcion}}</td>
+								<td>{{this.precio}}</td>
+                                <td>{{this.cantidad}}</td>
+								<td><img width='60' src={{this.thumbnail}} /></td>
+								<td>
+									<form action='/api/carrito/deleteProduct' method='POST'>
+										<input type='hidden' name='idUser' value={{user._id}} />
+										<input type='hidden' name='idProduct' value={{this._id}} />
+										<button type='submit'>Eliminar producto</button>
+									</form></td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+            
+            <div>
+                 <a href="/api/productos">Seguir comprando!</a>
+                    <br>
+                    <br>
+                    <br>
+                    <form action="/api/ordenes" method="POST">
+                        <input type="hidden" name="idUser" value={{userLog.id}}  />
+                        <button type="submit">Finalizar compra</button>
+                    </form>
+            </div>
+		{{else}}
+			<div class='not-found'>
+				<h2>No se Encontraron Productos</h2>
+			</div>
+		{{/if}}
+
+	</body>
+</html>

@@ -17,18 +17,19 @@ const getProducts = async (req, res) => {
 //* GET productos por id
 
 const getProductId = async (req, res) => {
-	const userLog = req.user;
+	const user = req.user;
 	const { id } = req.params;
 	const productosId = await contenedorProductos.getById(id);
-	if (!productosId) {
-		res.render('main', { layout: 'productoID', username: userLog.username });
-	} else {
+	if (productosId) {
 		res.render('main', {
 			layout: 'productoID',
 			products: productosId,
-			username: userLog.username,
-			userLog,
+			username: user.username,
+			admin: user.admin,
+			user,
 		});
+	} else {
+		res.render('main', { layout: 'productoID', username: user.username });
 	}
 };
 
@@ -43,7 +44,7 @@ const getProductCategory = async (req, res) => {
 		}
 	});
 	res.render('main', {
-		layout: 'productoID',
+		layout: 'productlist',
 		products: productosFiltrados,
 		username: user.username,
 		user: user.toJSON(),

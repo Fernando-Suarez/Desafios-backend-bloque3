@@ -3,14 +3,14 @@
 		<meta charset='UTF-8' />
 		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-		<link rel='stylesheet' type='text/css' href='../../../assets/style.css' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
 		<title>Productos</title>
 	</head>
 		{{> header}}
 	<body>	
 		<h1>Vista de Productos</h1>
 
-		{{#if products.length}}
+		{{#if products}}
 			<div class='container'>
 				<table class='content-table'>
 					<thead>
@@ -23,12 +23,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						{{#each products}}
 						<tr>
-							<td>{{this.nombre}}</td>
-							<td>{{this.precio}}</td>
-							<td>{{this.categoria}}</td>
-							<td><img width='60' src={{this.thumbnail}} /></td>
+							<td>{{products.nombre}}</td>
+							<td>{{products.precio}}</td>
+							<td>{{products.categoria}}</td>
+							<td><img width='60' src={{products.thumbnail}} /></td>
 							<td>
 								<form action='/api/carrito/addProduct' method='POST'>
 									<input type='hidden' name='idUser' value={{user._id}} />
@@ -37,7 +36,7 @@
 										carrito!</button>
 								</form></td>
 						</tr>
-						{{/each}}
+
 					</tbody>
 				</table>
 			</div>

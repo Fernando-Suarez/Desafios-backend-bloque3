@@ -1,4 +1,4 @@
-const storage = require('../daos/index');
+const storage = require('../daos/factory');
 const contenedorOrdenes = storage().ordenes;
 const contenedorCarrito = storage().carrito;
 const enviaMail = require('../utils/nodemailerGmail');

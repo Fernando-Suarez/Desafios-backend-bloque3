@@ -1,4 +1,4 @@
-const storage = require('../daos/index');
+const storage = require('../daos/factory');
 const contenedorCarrito = storage().carrito;
 const contenedorProductos = storage().productos;
 

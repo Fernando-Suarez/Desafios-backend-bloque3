@@ -1,5 +1,5 @@
 const { logger } = require('../utils/logger');
-const storage = require('../daos/index');
+const storage = require('../daos/factory');
 const contenedorProductos = storage().productos;
 
 //* GET productos

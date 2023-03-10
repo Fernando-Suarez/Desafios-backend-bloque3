@@ -1,7 +1,7 @@
-const carritoDaoMongoDb = require('../daos/daoMongoCarrito');
-const productosDaoMongoDb = require('../daos/daoMongoProductos');
-const mensajesDaoMongoDb = require('../daos/daoMongoMensajes');
-const ordenesDaoMongoDb = require('../daos/daoMongoOrdenes');
+const carritoDaoMongoDb = require('./daoMongoCarrito');
+const productosDaoMongoDb = require('./daoMongoProductos');
+const mensajesDaoMongoDb = require('./daoMongoMensajes');
+const ordenesDaoMongoDb = require('./daoMongoOrdenes');
 
 const getStore = () => {
 	const storage = 'mongoDB';

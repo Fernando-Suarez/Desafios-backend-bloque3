@@ -1,0 +1,59 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../../assets/style.css' />
+		<title>Productos</title>
+	</head>
+		{{> header}}
+	<body>
+		<h1>Vista de Productos</h1>
+
+		{{#if products.length}}
+			<div class='container'>
+				<table class='content-table'>
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Descripcion</th>
+							<th>Precio</th>
+							<th>Categoria</th>
+							<th>Stock</th>
+							<th>Foto</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{{#each products}}
+
+							<tr>
+								<td>{{this.nombre}}</td>
+								<td>{{this.descripcion}}</td>
+								<td>{{this.precio}}</td>
+								<td>{{this.categoria}}</td>
+								<td>{{this.stock}}</td>
+								<td><img width='60' src={{this.thumbnail}} /></td>
+								<td>
+									<form action='/api/carrito/addProduct' method='POST'>
+										{{#if this._id}}
+										<input type='hidden' name='idProduct' value={{this._id}} />
+										{{else}}
+										<input type='hidden' name='idProduct' value={{this.id}} />
+										{{/if}}
+										<button type='submit'>Agregar al
+											carrito!</button>
+									</form></td>
+							</tr>
+						{{/each}}
+					</tbody>
+				</table>
+			</div>
+		{{else}}
+			<div class='not-found'>
+				<h2>No se Encontraron Productos</h2>
+			</div>
+		{{/if}}
+
+	</body>
+</html>

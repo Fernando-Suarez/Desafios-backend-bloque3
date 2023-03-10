@@ -1,0 +1,35 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
+        
+		<title>Perfil</title>
+	</head>
+    {{> header}}
+	<body>
+			<div class='container'>
+				<table class='content-table'>
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Direccion</th>
+							<th>Edad</th>
+							<th>Telefono</th>
+							<th>Avatar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{userLog.nombre}}</td>
+							<td>{{userLog.direccion}}</td>
+							<td>{{userLog.edad}}</td>
+							<td>{{userLog.telefono}}</td>
+                            <td><img width='60' src='/avatar/{{userLog.avatar}}' /></td>							
+						</tr>
+
+					</tbody>
+				</table>
+	</body>
+</html>

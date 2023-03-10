@@ -1,0 +1,53 @@
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8' />
+		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
+		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+		<link rel='stylesheet' type='text/css' href='../../assets/style.css' />
+		<title>Productos</title>
+	</head>
+		{{> header}}
+	<body>	
+		<h1>Vista de Productos</h1>
+
+		{{#if products}}
+			<div class='container'>
+				<table class='content-table'>
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Precio</th>
+							<th>Categoria</th>
+							<th>Foto</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{{products.nombre}}</td>
+							<td>{{products.precio}}</td>
+							<td>{{products.categoria}}</td>
+							<td><img width='60' src={{products.thumbnail}} /></td>
+							<td>
+								<form action='/api/carrito/addProduct' method='POST'>
+									{{#if products._id}}
+										<input type='hidden' name='idProduct' value={{products._id}} />
+										{{else}}
+										<input type='hidden' name='idProduct' value={{products.id}} />
+										{{/if}}
+									<button type='submit'>Agregar al
+										carrito!</button>
+								</form></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		{{else}}
+			<div class='not-found'>
+				<h2>No se Encontraron Productos</h2>
+			</div>
+		{{/if}}
+
+	</body>
+</html>

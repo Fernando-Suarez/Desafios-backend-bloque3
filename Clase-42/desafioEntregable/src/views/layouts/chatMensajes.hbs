@@ -1,0 +1,13 @@
+<div>
+	{{#if mensajes.length}}
+	<div class='chat-mensajes'></div>
+		
+			{{#each mensajes}}
+				<p><span class='mensaje-email'>{{this.author.email}} </span>
+					<span class='mensaje-fecha'>[{{this.fecha}}] </span>
+					<span class='mensaje-contenido'>:{{this.text}}</span></p>
+			{{/each}}
+		
+	</div>
+	{{/if}}
+</div>

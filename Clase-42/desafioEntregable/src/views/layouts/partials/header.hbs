@@ -1,0 +1,35 @@
+<header>
+
+	<div>
+		<ul>
+			<li>
+				<a href='/'>Inicio</a>
+			</li>
+
+			<li>
+				<a href='/api/productos'>Todos los productos</a>
+			</li>
+
+			{{#if admin}}
+				<li>
+					<a href='/formAddProduct'>Agregar Productos</a>
+				</li>
+			{{/if}}
+
+			<li>
+				<a href='/api/carrito'>Carrito</a>
+			</li>
+
+			<li>
+				<a href='/auth/profile'>{{username}}</a>
+			</li>
+
+			<li>
+				<a href='/auth/logout'>Salir</a>
+			</li>
+
+		</ul>
+
+	</div>
+
+</header>

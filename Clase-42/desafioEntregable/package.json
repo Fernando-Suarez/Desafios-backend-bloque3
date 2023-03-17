@@ -5,6 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"test": "mocha src/test/testProducts.test.js",
+		"test2": "nodemon src/test/testProductsAxios.test.js",
 		"start": "node src/server.js",
 		"dev": "nodemon src/server.js"
 	},
